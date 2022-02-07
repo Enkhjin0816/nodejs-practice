@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./components/home";
+import Shortened from "./components/shortened";
+import Login from "./components/login";
+import SignUp from "./components/signUp";
+import ForgotPass from "./components/forgotPass";
+import History from "./components/history";
+import Home_loggedin from "./components/home-loggedin";
+import Page_not_found from "./components/page-not-found";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shortened" element={<Shortened />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signUp" element={<SignUp />} />∑
+        <Route path="/forgotPass" element={<ForgotPass />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/home-loggedin" element={<Home_loggedin />} />
+        <Route path="*" element={<Page_not_found />} />
+      </Routes>
+    </Router>
   );
 }
 
