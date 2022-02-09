@@ -26,7 +26,7 @@ const Login = () => {
       .then((userCredential) => {
         let user = userCredential.user;
         console.log(user);
-        window.location.href = "http://localhost:3001/home-loggedin";
+        window.location.href = "http://localhost:3000/home-loggedin";
       })
       .catch((error) => {
         let errorCode = error.code;
@@ -34,13 +34,16 @@ const Login = () => {
         console.log(errorMessage, errorCode);
       });
   };
+
   return (
     <Container id={"cont"}>
       <Header>
         <Button info>ХЭРХЭН АЖИЛЛАДАГ ВЭ?</Button>
       </Header>
       <Body login>
-        <LogoDefault />
+        <Link to='/'>
+          <LogoDefault />
+        </Link>
         <Column>
           <P Margin={"2"} Weight={"bold"} colors={"green"} fontSize={"xl"}>
             Нэвтрэх

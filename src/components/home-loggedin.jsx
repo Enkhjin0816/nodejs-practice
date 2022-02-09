@@ -4,9 +4,22 @@ import Container from "../styles/Container.styled";
 import { LogoDefault, Logo } from "../pictures/pictures";
 import ArrowDown from "../pictures/arrow-down.svg";
 import { useState } from "react";
+import { useFirebase } from "../firebase";
 
 const Home_loggedin = () => {
   const [toggle, setToggle] = useState(false);
+  const {auth} = useFirebase();
+  const logOut = () => {
+    auth
+    .signOut()
+    .then(function() {
+      window.location.href = "http://localhost:3000";
+      console.log('logout success')
+    }).catch((error) => {
+      let errorMessage = error.message;
+      console.log(errorMessage);
+    });
+  }
 
   return (
     <Container>
@@ -15,7 +28,7 @@ const Home_loggedin = () => {
         <Button info>ХЭРХЭН АЖИЛЛАДАГ ВЭ?</Button>
         <Column reverse>
           {toggle ? 
-            <Dropdown>Log out</Dropdown>
+            <Dropdown onClick={logOut}>Log out</Dropdown>
           : ''}
           <Button onClick={() => {setToggle(!toggle)}} dropdown>
             Dulguun

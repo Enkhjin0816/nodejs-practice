@@ -16,7 +16,9 @@ const Page_not_found = () => {
   return (
     <Container>
       <Column>
-        <LogoDefault />
+        <Link to='/'>
+          <LogoDefault />
+        </Link>
         <P fontSize={"xl"} colors={"green"}>
           Page Not Found \_(o-o )_/
         </P>

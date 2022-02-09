@@ -26,7 +26,9 @@ const History = () => {
         </Button>
       </Header>
       <Body shortened>
-        <LogoDefault />
+        <Link to='/'>
+          <LogoDefault />
+        </Link>
         <Row>
           <Input placeholder="https://www.web-huudas.mn" />
           <Button>БОГИНОСГОХ</Button>
