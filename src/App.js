@@ -15,7 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/shortened" element={<Shortened />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />∑
+        <Route path="/signUp" element={<SignUp />} />
         <Route path="/forgotPass" element={<ForgotPass />} />
         <Route path="/history" element={<History />} />
         <Route path="/home-loggedin" element={<Home_loggedin />} />

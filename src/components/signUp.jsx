@@ -13,18 +13,34 @@ import {
 import Container from "../styles/Container.styled";
 import { LogoDefault, Logo } from "../pictures/pictures";
 import { useFirebase } from "../firebase";
-import firebase from "firebase/compat/app";
-import { auth } from "../firebase";
 import { useState } from "react";
+import * as yup from 'yup';
 
 const SignUp = () => {
   const { auth } = useFirebase();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
+  const schema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.number().password().required().min(6)
+  })
+
+  const checkValid = () => {
+    schema.isValid({
+      email: email,
+      password: pass
+    }).then(() => {
+      console.log('done')
+    })
+    .catch((error) => {
+      let errorCode = error.code;
+      console.log(errorCode)
+    })
+  }
+
   const signUp = () => {
-    firebase
-      .auth()
+      auth
       .createUserWithEmailAndPassword(email, pass)
       .then((userCredential) => {
         let user = userCredential.user;
@@ -37,6 +53,7 @@ const SignUp = () => {
         console.log(errorMessage);
       });
   };
+
   return (
     <Container>
       <Header>
