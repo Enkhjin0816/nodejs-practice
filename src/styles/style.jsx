@@ -182,6 +182,10 @@ const Box = styled.div`
   justify-content: space-between;
   padding-bottom: 30px;
 `;
+const Error = styled.div`
+    color: red;
+    padding-left: 25%;
+`;
 
 export {
   Button,
@@ -195,5 +199,6 @@ export {
   After,
   Column,
   Box,
-  Dropdown
+  Dropdown,
+  Error
 };
