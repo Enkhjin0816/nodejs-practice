@@ -8,7 +8,8 @@ import {
   Row,
   After,
   P,
-  Column
+  Column,
+  Error
 } from "../styles/style";
 import Container from "../styles/Container.styled";
 import { LogoDefault, Logo } from "../pictures/pictures";
@@ -16,28 +17,17 @@ import { useFirebase } from "../firebase";
 import { useState } from "react";
 import * as yup from 'yup';
 
+const schema = yup.object({
+  email: yup.string().email('Имайл хаяг биш байна!').required('Имайл хаягаа оруулна уу!'),
+  password: yup.string().required('Нууц үг хийх шаардлагатай!').min(6, 'Нууц үг дор хаяж 6 оронтой байх шаардлагатай!'),
+  passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 'Нууц үг тохирох ёстой!')
+})
+
 const SignUp = () => {
   const { auth } = useFirebase();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
-  const schema = yup.object({
-    email: yup.string().email().required(),
-    password: yup.number().password().required().min(6)
-  })
-
-  const checkValid = () => {
-    schema.isValid({
-      email: email,
-      password: pass
-    }).then(() => {
-      console.log('done')
-    })
-    .catch((error) => {
-      let errorCode = error.code;
-      console.log(errorCode)
-    })
-  }
+  const [passConf, setPassConf] = useState("");
 
   const signUp = () => {
       auth
@@ -50,9 +40,32 @@ const SignUp = () => {
       .catch((error) => {
         let errorCode = error.code;
         let errorMessage = error.message;
-        console.log(errorMessage);
+        console.log(errorCode);
       });
   };
+
+  const checkValid = () => {
+    schema.strict().validate({
+      email: email,
+      password: pass,
+      passwordConfirmation: passConf
+    }).then((valid) => {
+      signUp();
+    })
+    .catch((errors) => {
+      const newDiv = document.createElement("div");
+      const newContent = document.createTextNode(errors.toString().split(':').slice(1));
+      newDiv.appendChild(newContent);
+      const currentDiv = document.getElementById("div1");
+      var elm = newDiv;
+      (currentDiv).prepend(elm);
+      setTimeout(function() {
+          elm.remove();
+      }, 3000);
+    })
+  }
+
+  
 
   return (
     <Container>
@@ -87,9 +100,10 @@ const SignUp = () => {
           </After>
           <After>
             <P fontSize={"sm"}>Нууц үгээ давтана уу</P>
-            <Input small type={"password"} placeholder="••••••••••" />
+            <Input onChange={(event) => setPassConf(event.target.value)} small type={"password"} placeholder="••••••••••" />
           </After>
-          <Button onClick={signUp} longButton>
+          <Error id="div1"></Error>
+          <Button onClick={checkValid} longButton>
             БҮРТГҮҮЛЭХ
           </Button>
         </Column>
