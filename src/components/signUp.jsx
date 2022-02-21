@@ -40,7 +40,7 @@ const SignUp = () => {
       .catch((error) => {
         let errorCode = error.code;
         let errorMessage = error.message;
-        console.log(errorCode);
+        console.log(errorCode.match());
       });
   };
 

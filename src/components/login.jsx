@@ -8,13 +8,15 @@ import {
   Row,
   After,
   P,
-  Column
+  Column,
+  Error
 } from "../styles/style";
 import Container from "../styles/Container.styled";
 import { LogoDefault, Logo } from "../pictures/pictures";
 import { useFirebase } from "../firebase";
 import firebase from "firebase/compat/app";
 import { useState } from "react";
+import _ from 'lodash';
 
 const Login = () => {
   const { auth } = useFirebase();
@@ -30,8 +32,16 @@ const Login = () => {
       })
       .catch((error) => {
         let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log(errorMessage, errorCode);
+        const newDiv = document.createElement("div");
+        const newContent = document.createTextNode(errorCode.toString().split('/').slice(1));
+        newDiv.appendChild(newContent);
+        const currentDiv = document.getElementById("div1");
+        var elm = newDiv;
+        (currentDiv).prepend(elm);
+        setTimeout(function() {
+            elm.remove();
+        }, 3000);
+        console.log(errorCode)
       });
   };
 
@@ -75,6 +85,7 @@ const Login = () => {
               <Button lined>Нууц үгээ мартсан</Button>
             </Link>
           </Row>
+          <Error id="div1"></Error>
           <Button onClick={login} longButton>
             НЭВТРЭХ
           </Button>
